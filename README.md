@@ -2,18 +2,16 @@
 
 Toolkit for server-side rendered route based apps built with React and React Router
 
-[TOC]
-
 ## Install
 
 ```sh
-npm install @rambler-tech/react-toolkit/client
+npm install @rambler-tech/react-toolkit
 ```
 
 or 
 
 ```sh
-yarn add @rambler-tech/react-toolkit/client
+yarn add @rambler-tech/react-toolkit
 ```
 
 ## Usage
