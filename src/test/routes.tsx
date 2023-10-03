@@ -1,10 +1,10 @@
 import {lazy, type PageRoute} from '../client'
-import StaticImport from './pages/static-import'
+import StaticImport from './components/static-import'
 
-const HomePage = lazy(() => import('./pages/home'))
-const GetData = lazy(() => import('./pages/get-data'))
-const GetAsyncData = lazy(() => import('./pages/get-async-data'))
-const NoGetData = lazy(() => import('./pages/no-get-data'))
+const HomePage = lazy(() => import('./components/home'))
+const GetData = lazy(() => import('./components/get-data'))
+const GetAsyncData = lazy(() => import('./components/get-async-data'))
+const NoGetData = lazy(() => import('./components/no-get-data'))
 
 export const routes: PageRoute[] = [
   {
