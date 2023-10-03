@@ -1,7 +1,8 @@
 import {
   matchRoutes,
   type RouteProps,
-  type NavigateFunction
+  type NavigateFunction,
+  type RouteMatch
 } from 'react-router-dom'
 import type {Location} from 'history'
 import type {Request, Response} from 'express'
@@ -52,6 +53,7 @@ export interface LoadRouteDataOptions {
 export interface RouteData {
   data?: InitialData
   meta?: MetaData
+  match?: RouteMatch
 }
 
 export const loadRouteData = async ({
@@ -81,5 +83,5 @@ export const loadRouteData = async ({
 
   const [data, meta] = await Promise.all(promises)
 
-  return {data, meta}
+  return {data, meta, match}
 }
