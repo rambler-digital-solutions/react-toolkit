@@ -23,7 +23,7 @@
     "format": "prettier --write *.js src/**/*.{ts,tsx} && eslint '*.js' 'src/**/*.{ts,tsx}' --fix",
     "typecheck": "tsc --noEmit",
     "sizecheck": "lerna exec -- tsc && size-limit",
-    "licenselint": "ts-node src/cli.ts",
+    "licenselint": "licenselint",
     "release": "semantic-release",
     "prepare": "[ -n \"$CI\" ] && exit 0 || husky install"
   },
@@ -40,6 +40,7 @@
     "@commitlint/cli": "^17.4.1",
     "@commitlint/config-conventional": "^17.4.0",
     "@rambler-tech/eslint-config": "^0.1.0",
+    "@rambler-tech/licenselint": "^1.3.0",
     "@rambler-tech/licenselint-config": "^0.0.2",
     "@rambler-tech/prettier-config": "^0.1.0",
     "@rambler-tech/ts-config": "^0.0.2",
