@@ -1,0 +1,6 @@
+{
+  "extends": "@rambler-tech/typedoc-config",
+  "name": "React Toolkit",
+  "entryPoints": "src/*",
+  "out": "public"
+}

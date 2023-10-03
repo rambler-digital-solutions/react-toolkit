@@ -1,0 +1,10 @@
+[
+  {
+    "path": "dist/client/index.js",
+    "limit": "200 B"
+  },
+  {
+    "path": "dist/server/index.js",
+    "limit": "200 B"
+  }
+]
