@@ -42,9 +42,7 @@ export const renderToStream = async ({
     return res.redirect(data?.statusCode ?? 302, data.redirect)
   }
 
-  if (data?.statusCode) {
-    res.status(data?.statusCode)
-  }
+  res.status(data?.statusCode ?? 200)
 
   const appContext = {
     req,
@@ -70,8 +68,10 @@ export const renderToStream = async ({
 
   await new Promise<void>((resolve, reject) => {
     const stream = renderToPipeableStream(app, {
-      onShellReady() {
+      onAllReady() {
         resolve()
+      },
+      onShellReady() {
         stream.pipe(res)
       },
       onShellError(error) {

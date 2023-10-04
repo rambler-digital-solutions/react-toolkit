@@ -13,9 +13,7 @@ export const lazy = (factory: ComponentFactory): LazyPageComponent => {
   let promise: ReturnType<ComponentFactory>
 
   const onceFactory: ComponentFactory = () => {
-    if (!promise) {
-      promise = factory()
-    }
+    promise ??= factory()
 
     return promise
   }

@@ -1,4 +1,3 @@
-// import { createMemoryHistory, History} from 'history';
 import {loadRouteData, type Context} from './loader'
 import {routes} from '../test/routes'
 
@@ -50,4 +49,13 @@ test('get component without data', async () => {
   expect(matched.match?.pathname).toBe(pathname)
   expect(matched.data).toBeUndefined()
   expect(matched.meta).toBeUndefined()
+})
+
+test('get not found', async () => {
+  const pathname = '/not-found'
+  const matched = await loadRouteData({pathname, routes, context})
+
+  expect(matched.match?.pathname).toBe(pathname)
+  expect(matched.data).toEqual({statusCode: 404})
+  expect(matched.meta).toEqual({title: '404'})
 })
