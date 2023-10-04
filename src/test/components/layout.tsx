@@ -4,6 +4,6 @@ export interface LayoutProps {
   children: ReactNode
 }
 
-export const Layout: FC<LayoutProps> = ({children}) => {
-  return <main className="layout">{children}</main>
-}
+export const Layout: FC<LayoutProps> = ({children}) => (
+  <main className="layout">{children}</main>
+)

@@ -33,6 +33,15 @@ test('get async initial and meta data', async () => {
   expect(matched.meta).toEqual({title: 'Get async data'})
 })
 
+test('get component with parametrized path', async () => {
+  const pathname = '/param/Hello'
+  const matched = await loadRouteData({pathname, routes, context})
+
+  expect(matched.match?.pathname).toBe(pathname)
+  expect(matched.data).toEqual({message: 'Hello'})
+  expect(matched.meta).toEqual({title: 'Param'})
+})
+
 test('get component with static import', async () => {
   const pathname = '/static-import'
   const matched = await loadRouteData({pathname, routes, context})

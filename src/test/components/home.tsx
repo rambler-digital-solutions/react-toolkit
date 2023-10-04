@@ -1,16 +1,14 @@
 import React from 'react'
 import type {PageComponent} from '../../client'
 
-const HomePage: PageComponent = () => {
-  return <h1>Home</h1>
-}
+const HomePage: PageComponent = () => <h1>Home</h1>
 
-HomePage.getMetaData = async () => {
-  return {title: 'Home'}
-}
+HomePage.getMetaData = async () => ({
+  title: 'Home'
+})
 
-HomePage.getInitialData = async () => {
-  return {message: 'Hello'}
-}
+HomePage.getInitialData = async () => ({
+  message: 'Hello'
+})
 
 export default HomePage

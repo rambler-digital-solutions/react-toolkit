@@ -1,16 +1,14 @@
 import React from 'react'
 import type {PageComponent} from '../../client'
 
-const StaticImport: PageComponent = () => {
-  return <h1>Static import</h1>
-}
+const StaticImport: PageComponent = () => <h1>Static import</h1>
 
-StaticImport.getMetaData = async () => {
-  return {title: 'Static import'}
-}
+StaticImport.getMetaData = async () => ({
+  title: 'Static import'
+})
 
-StaticImport.getInitialData = async () => {
-  return {message: 'Hello'}
-}
+StaticImport.getInitialData = async () => ({
+  message: 'Hello'
+})
 
 export default StaticImport

@@ -1,4 +1,4 @@
-import type {RouteProps, NavigateFunction} from 'react-router-dom'
+import type {RouteProps, NavigateFunction, RouteMatch} from 'react-router-dom'
 import type {Location} from 'history'
 import type {Request, Response} from 'express'
 
@@ -12,6 +12,8 @@ export interface Context extends Record<string, any> {
   location?: Location
   /** React Router navigate function */
   navigate?: NavigateFunction
+  /** Matched route params */
+  match?: RouteMatch
 }
 
 /** Initial data interface */

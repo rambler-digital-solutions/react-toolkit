@@ -87,3 +87,23 @@ test('get page with custom document', async () => {
   )
   expect(res.data).toContain('<h1>')
 })
+
+test('get page with custom context param', async () => {
+  const store: any = {
+    getState: jest.fn().mockImplementation(() => store.state),
+    dispatch: jest.fn().mockImplementation((state) => {
+      store.state = state
+    })
+  }
+
+  req.path = '/custom-context'
+  await renderToStream({req, res, routes, store})
+
+  expect(res.status).toBeCalledWith(200)
+  expect(store.dispatch).toBeCalledWith({message: 'Hello'})
+  expect(store.getState).toBeCalledTimes(1)
+  expect(res.data).toContain('<title>Custom context</title>')
+  expect(res.data).toContain('<h1>Custom context</h1>')
+  expect(res.data).toContain('__INITIAL_STATE__')
+  expect(res.data).toContain(JSON.stringify({message: 'Hello'}))
+})

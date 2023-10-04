@@ -1,16 +1,14 @@
 import React from 'react'
 import type {PageComponent} from '../../client'
 
-const GetData: PageComponent = () => {
-  return <h1>Get data</h1>
-}
+const GetData: PageComponent = () => <h1>Get data</h1>
 
-GetData.getMetaData = () => {
-  return {title: 'Get data'}
-}
+GetData.getMetaData = () => ({
+  title: 'Get data'
+})
 
-GetData.getInitialData = () => {
-  return {message: 'Hello'}
-}
+GetData.getInitialData = () => ({
+  message: 'Hello'
+})
 
 export default GetData

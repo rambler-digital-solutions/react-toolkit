@@ -1,9 +1,7 @@
 import React from 'react'
 import type {PageComponent} from '../../client'
 
-const NotFound: PageComponent = () => {
-  return <h1>Not found</h1>
-}
+const NotFound: PageComponent = () => <h1>Not found</h1>
 
 NotFound.getMetaData = () => ({
   title: '404'
