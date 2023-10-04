@@ -2,6 +2,11 @@
   "name": "@rambler-tech/react-toolkit",
   "version": "0.0.0",
   "description": "Toolkit for server-side rendered route based apps built with React and React Router",
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md"
+  ],
   "exports": {
     "./client": "dist/client/index.js",
     "./server": "dist/server/index.js"
