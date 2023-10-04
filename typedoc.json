@@ -1,6 +1,10 @@
 {
   "extends": "@rambler-tech/typedoc-config",
   "name": "React Toolkit",
-  "entryPoints": "src/*",
-  "out": "public"
+  "readme": "README.md",
+  "entryPoints": ["src/client/index.ts", "src/server/index.ts"],
+  "out": "public",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeNotDocumented": true
 }
