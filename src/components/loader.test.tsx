@@ -1,7 +1,7 @@
-import {loadRouteData, type Context} from './loader'
+import {loadRouteData} from './loader'
 import {routes} from '../test/routes'
 
-let context: Context
+let context: any
 
 beforeEach(() => {
   context = {}

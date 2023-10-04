@@ -1,6 +1,7 @@
 import React from 'react'
 import {useAppContext} from './context'
 
+/** Default preload link component */
 export const Preloads: React.FC = () => {
   const {styles, scripts} = useAppContext()
 

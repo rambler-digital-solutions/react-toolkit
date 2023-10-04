@@ -5,10 +5,12 @@ import {Styles} from './styles'
 import {Scripts} from './scripts'
 import {State} from './state'
 
+/** Default document props */
 export interface DocumentProps {
   children: React.ReactNode
 }
 
+/** Default document component */
 export const Document: React.FC<DocumentProps> = ({children}) => (
   <html lang="ru">
     <head>

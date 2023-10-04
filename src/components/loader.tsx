@@ -1,61 +1,21 @@
-import {
-  matchRoutes,
-  type RouteProps,
-  type NavigateFunction,
-  type RouteMatch
-} from 'react-router-dom'
-import type {Location} from 'history'
-import type {Request, Response} from 'express'
+import {matchRoutes, type RouteMatch} from 'react-router-dom'
+import {Context, PageRoute, InitialData, MetaData} from '../common/types'
 
-export interface Context extends Record<string, any> {
-  req?: Request
-  res?: Response
-  location?: Location
-  navigate?: NavigateFunction
-}
-
-export interface InitialData extends Record<string, any> {
-  redirect?: string
-  statusCode?: number
-}
-
-export type GetInitialData = (
-  context: Context
-) => InitialData | void | Promise<InitialData | void>
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MetaData extends Record<string, any> {}
-
-export type GetMetaData = (
-  context: Context
-) => MetaData | void | Promise<MetaData | void>
-
-export type PageComponent<P = any> = React.ComponentType<P> & {
-  getMetaData?: GetMetaData
-  getInitialData?: GetInitialData
-}
-
-export interface LazyPageComponent extends React.LazyExoticComponent<any> {
-  getMetaData: GetMetaData
-  getInitialData: GetInitialData
-}
-
-export type PageRoute = RouteProps & {
-  Component: PageComponent | LazyPageComponent
-}
-
+/** Route loader options */
 export interface LoadRouteDataOptions {
   context: Context
   pathname: string
   routes: PageRoute[]
 }
 
+/** Route data */
 export interface RouteData {
   data?: InitialData
   meta?: MetaData
   match?: RouteMatch
 }
 
+/** Route loader */
 export const loadRouteData = async ({
   pathname,
   routes,

@@ -213,7 +213,7 @@ export default server
 
 ```ts
 // src/client.ts
-import {getState, hydrateFromStream} from '@rambler-tech/react-toolkit/client'
+import {hydrateFromStream} from '@rambler-tech/react-toolkit/client'
 import {routes} from './routes'
 import {MyLayout} from './layout'
 
@@ -244,44 +244,10 @@ export const MyDocument: FC<MyDocumentProps> = ({children}) => (
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <Meta />
       <link rel="manifest" href="/manifest.json" />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/favicon/favicon-48x48.png"
-        sizes="48x48"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/favicon/favicon-96x96.png"
-        sizes="96x96"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/favicon/favicon-144x144.png"
-        sizes="144x144"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        href="/favicon/favicon-192x192.png"
-        sizes="192x192"
-      />
       <Preloads />
       <link
         rel="preconnect"
         href="https://mc.yandex.ru"
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="preconnect"
-        href="https://st.top100.ru"
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="preconnect"
-        href="https://www.tns-counter.ru"
         crossOrigin="anonymous"
       />
       <Styles />
@@ -331,7 +297,7 @@ export default server
 
 ```ts
 // src/client.ts
-import {getState, hydrateFromStream} from '@rambler-tech/react-toolkit/client'
+import {hydrateFromStream} from '@rambler-tech/react-toolkit/client'
 import {routes} from './routes'
 import {MyDocument} from './document'
 

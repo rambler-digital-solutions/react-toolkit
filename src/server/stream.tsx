@@ -2,32 +2,71 @@ import React from 'react'
 import {renderToPipeableStream} from 'react-dom/server'
 import {StaticRouter} from 'react-router-dom/server'
 import type {Request, Response} from 'express'
+import {RenderOptions} from '../common/types'
 import {AppContextProvider} from '../components/context'
-import {loadRouteData, type PageRoute} from '../components/loader'
+import {loadRouteData} from '../components/loader'
 import {Routes} from '../components/routes'
 import {Layout as BaseLayout} from '../components/layout'
 import {Document as BaseDocument} from '../components/document'
 
-export interface RenderToStreamOptions extends Record<string, any> {
+/** Render to stream options */
+export interface RenderToStreamOptions extends RenderOptions {
+  /** Express.js [request](https://expressjs.com/en/4x/api.html#req) object (server-only) */
   req: Request
+  /** Express [response](https://expressjs.com/en/4x/api.html#res) object (server-only) */
   res: Response
-  routes: PageRoute[]
+  /** Style assets list (server-only) */
   styles?: string[]
+  /** Script assets list (server-only) */
   scripts?: string[]
-  Layout?: React.FC<any>
-  Document?: React.FC<any>
 }
 
-export const renderToStream = async ({
-  req,
-  res,
-  routes,
-  styles,
-  scripts,
-  Layout = BaseLayout,
-  Document = BaseDocument,
-  ...rest
-}: RenderToStreamOptions): Promise<void> => {
+/**
+ * Render app to stream
+ *
+ * ```ts
+ * import express from 'express'
+ * import {renderToStream} from '@rambler-tech/react-toolkit/server'
+ * import {routes} from './routes'
+ *
+ * const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
+ *
+ * const server = express()
+ *
+ * server
+ *   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+ *   .get('/*', async (req, res) => {
+ *     try {
+ *       const {css: styles, js: scripts} = assets.client
+ *
+ *       await renderToStream({
+ *         req,
+ *         res,
+ *         routes,
+ *         styles,
+ *         scripts
+ *       })
+ *     } catch (error) {
+ *       console.error(error)
+ *     }
+ *   })
+ *
+ * export default server
+ * ```
+ */
+export const renderToStream = async (
+  options: RenderToStreamOptions
+): Promise<void> => {
+  const {
+    req,
+    res,
+    routes,
+    styles,
+    scripts,
+    Layout = BaseLayout,
+    Document = BaseDocument,
+    ...rest
+  } = options
   const {path: pathname} = req
 
   const context = {

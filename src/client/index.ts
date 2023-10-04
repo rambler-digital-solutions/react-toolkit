@@ -11,10 +11,9 @@ export type {
   PageComponent,
   LazyPageComponent,
   PageRoute
-} from '../components/loader'
+} from '../common/types'
 export {Meta} from '../components/meta'
 export {Preloads} from '../components/preloads'
-export {type RoutesProps, Routes} from '../components/routes'
 export {Scripts} from '../components/scripts'
 export {type StateProps, State, getState} from '../components/state'
 export {Styles} from '../components/styles'
