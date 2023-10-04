@@ -2,9 +2,20 @@
   "name": "@rambler-tech/react-toolkit",
   "version": "0.0.0",
   "description": "Toolkit for server-side rendered route based apps built with React and React Router",
-  "main": "dist",
-  "module": "dist",
-  "types": "dist/index.d.ts",
+  "exports": {
+    "./client": "dist/client/index.js",
+    "./server": "dist/server/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "client": [
+        "dist/client/index.d.ts"
+      ],
+      "server": [
+        "dist/server/index.d.ts"
+      ]
+    }
+  },
   "author": "Andrey Polischuk <me@andrepolischuk.com>",
   "repository": {
     "type": "git",
