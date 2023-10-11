@@ -96,11 +96,11 @@ export const renderToStream = async (
   const app = (
     <AppContextProvider value={appContext}>
       <Document>
-        <Layout>
-          <StaticRouter location={pathname}>
+        <StaticRouter location={pathname}>
+          <Layout>
             <Routes routes={routes} />
-          </StaticRouter>
-        </Layout>
+          </Layout>
+        </StaticRouter>
       </Document>
     </AppContextProvider>
   )
