@@ -40,11 +40,11 @@ export const hydrateFromStream = async (
   const app = (
     <AppContextProvider value={appContext}>
       <Document>
-        <Layout>
-          <BrowserRouter>
+        <BrowserRouter>
+          <Layout>
             <Routes routes={routes} />
-          </BrowserRouter>
-        </Layout>
+          </Layout>
+        </BrowserRouter>
       </Document>
     </AppContextProvider>
   )
