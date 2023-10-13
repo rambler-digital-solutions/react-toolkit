@@ -1,4 +1,5 @@
 import React from 'react'
+import {isSSR} from '../common/ssr'
 import {serialize, parse} from '../common/json'
 import {useAppContext} from './context'
 
@@ -44,6 +45,10 @@ export const State: React.FC<StateProps> = ({name = STATE_NAME, state}) => {
     ...context
   } = useAppContext()
 
+  if (!isSSR) {
+    return
+  }
+
   return (
     <script
       id={`__${name.toUpperCase()}__`}
@@ -73,15 +78,12 @@ export const State: React.FC<StateProps> = ({name = STATE_NAME, state}) => {
  * ```
  */
 export const getState = <T extends Record<string, any>>(
-  name = STATE_NAME,
-  remove = true
+  name = STATE_NAME
 ): T => {
   const script = document.getElementById(`__${name.toUpperCase()}__`)!
   const state = parse<T>(script.textContent!)
 
-  if (remove) {
-    script.remove()
-  }
+  script.remove()
 
   return state
 }
