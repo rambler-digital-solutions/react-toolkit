@@ -1,5 +1,5 @@
 import React from 'react'
-import serialize from 'serialize-javascript'
+import {serialize, parse} from '../common/json'
 import {useAppContext} from './context'
 
 const STATE_NAME = 'SERVER_APP_STATE'
@@ -37,15 +37,18 @@ export interface StateProps {
  * ```
  */
 export const State: React.FC<StateProps> = ({name = STATE_NAME, state}) => {
-  const {data, meta, styles, scripts} = useAppContext()
-  const appState = state ?? {data, meta, styles, scripts}
+  const {
+    req: _req,
+    res: _res,
+    onChangeMetaData: _,
+    ...context
+  } = useAppContext()
 
   return (
     <script
-      defer
-      dangerouslySetInnerHTML={{
-        __html: `window.__${name.toUpperCase()}__ =  ${serialize(appState)}`
-      }}
+      id={`__${name.toUpperCase()}__`}
+      type="application/json"
+      dangerouslySetInnerHTML={{__html: serialize(state ?? context)}}
     />
   )
 }
@@ -73,14 +76,11 @@ export const getState = <T extends Record<string, any>>(
   name = STATE_NAME,
   remove = true
 ): T => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const state = window[`__${name.toUpperCase()}__`]
+  const script = document.getElementById(`__${name.toUpperCase()}__`)!
+  const state = parse<T>(script.textContent!)
 
   if (remove) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    delete window[`__${name.toUpperCase()}__`]
+    script.remove()
   }
 
   return state
