@@ -19,9 +19,6 @@ class MockResponse extends Writable {
 let req: any
 let res: any
 
-const toJSON = (data: Record<string, any>): string =>
-  serialize(data).replace(/(^"|"$)/g, '')
-
 beforeEach(() => {
   req = {}
   res = new MockResponse()
@@ -34,7 +31,7 @@ test('get page with status code 200', async () => {
   expect(res.status).toBeCalledWith(200)
   expect(res.data).toContain('<title>Home</title>')
   expect(res.data).toContain('<h1>Home</h1>')
-  expect(res.data).toContain(toJSON({message: 'Hello'}))
+  expect(res.data).toContain(serialize({message: 'Hello'}))
 })
 
 test('get redirect with status code 302', async () => {
@@ -52,7 +49,7 @@ test('get not found with status code 404', async () => {
   expect(res.status).toBeCalledWith(404)
   expect(res.data).toContain('<title>404</title>')
   expect(res.data).toContain('<h1>Not found</h1>')
-  expect(res.data).toContain(toJSON({statusCode: 404}))
+  expect(res.data).toContain(serialize({statusCode: 404}))
 })
 
 test('get page with assets', async () => {
@@ -109,5 +106,5 @@ test('get page with custom context param', async () => {
   expect(res.data).toContain('<title>Custom context</title>')
   expect(res.data).toContain('<h1>Custom context</h1>')
   expect(res.data).toContain('__INITIAL_STATE__')
-  expect(res.data).toContain(toJSON({message: 'Hello'}))
+  expect(res.data).toContain(serialize({message: 'Hello'}))
 })
