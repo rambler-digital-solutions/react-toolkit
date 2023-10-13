@@ -1,4 +1,3 @@
-export {type AppContextValue, useAppContext} from '../components/context'
 export {type DocumentProps, Document} from '../components/document'
 export {type LayoutProps, Layout} from '../components/layout'
 export {type ComponentFactory, lazy} from '../components/lazy'

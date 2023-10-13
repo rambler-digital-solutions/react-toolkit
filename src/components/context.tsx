@@ -49,27 +49,5 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
 /**
  * App context hook
- *
- * ```tsx
- * import React, {FC, ReactNode} from 'react'
- * import {Provider} from 'react-redux'
- * import {useAppContext, State} from '@rambler-tech/react-toolkit/client'
- *
- * export interface MyLayoutProps {
- *   children: ReactNode
- * }
- *
- * export const MyLayout: FC<MyLayoutProps> = ({children}) => {
- *   const {store} = useAppContext()
- *
- *   return (
- *     <>
- *       <Provider store={store}>{children}</Provider>
- *       <State name="INITIAL_STATE" state={store.getState()} />
- *     </>
- *   )
- * }
- * ```
- *
  */
 export const useAppContext = (): AppContextValue => useContext(AppContext)

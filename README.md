@@ -367,15 +367,15 @@ hydrateFromStream({
 // src/layout.tsx
 import React, {FC, ReactNode} from 'react'
 import {Provider} from 'react-redux'
-import {useAppContext, State} from '@rambler-tech/react-toolkit/client'
+import {State} from '@rambler-tech/react-toolkit/client'
+import {Store} from './store'
 
 export interface MyLayoutProps {
   children: ReactNode
+  store: Store
 }
 
-export const MyLayout: FC<MyLayoutProps> = ({children}) => {
-  const {store} = useAppContext()
-
+export const MyLayout: FC<MyLayoutProps> = ({store, children}) => {
   return (
     <>
       <Provider store={store}>{children}</Provider>
