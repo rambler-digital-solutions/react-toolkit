@@ -8,9 +8,9 @@ export interface Context extends Record<string, any> {
   req?: Request
   /** Express [response](https://expressjs.com/en/4x/api.html#res) object (server-only) */
   res?: Response
-  /** Location object */
+  /** Location object (client-only) */
   location?: Location
-  /** React Router navigate function */
+  /** React Router navigate function (client-only) */
   navigate?: NavigateFunction
   /** Matched route params */
   match?: RouteMatch

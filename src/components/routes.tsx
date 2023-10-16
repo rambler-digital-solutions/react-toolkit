@@ -21,6 +21,8 @@ export const Routes: React.FC<RoutesProps> = ({routes}) => {
   const navigate = useNavigate()
 
   const {
+    req,
+    res,
     data,
     meta,
     styles: _styles,
@@ -37,6 +39,8 @@ export const Routes: React.FC<RoutesProps> = ({routes}) => {
       const {pathname} = location
 
       const context = {
+        req,
+        res,
         location,
         navigate,
         ...rest
@@ -66,7 +70,7 @@ export const Routes: React.FC<RoutesProps> = ({routes}) => {
             {...routeProps}
             key={path}
             path={path}
-            element={<Component {...routeData.data} />}
+            element={<Component {...rest} {...routeData.data} />}
           />
         ))}
       </BaseRoutes>

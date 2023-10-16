@@ -108,3 +108,18 @@ test('get page with custom context param', async () => {
   expect(res.data).toContain('__INITIAL_STATE__')
   expect(res.data).toContain(serialize({message: 'Hello'}))
 })
+
+test('get page with custom context in layout', async () => {
+  const store: any = {
+    getState: jest.fn().mockImplementation(() => ({message: 'Custom'}))
+  }
+
+  req.path = '/no-get-data'
+  await renderToStream({req, res, routes, Layout, store})
+
+  expect(res.status).toBeCalledWith(200)
+  expect(store.getState).toBeCalledTimes(1)
+  expect(res.data).toContain('<h1>No get data</h1>')
+  expect(res.data).toContain('__INITIAL_STATE__')
+  expect(res.data).toContain(serialize({message: 'Custom'}))
+})
