@@ -61,7 +61,7 @@
     "@rambler-tech/licenselint-config": "^0.0.2",
     "@rambler-tech/prettier-config": "^0.1.0",
     "@rambler-tech/ts-config": "^0.0.2",
-    "@rambler-tech/typedoc-config": "^0.0.2",
+    "@rambler-tech/typedoc-config": "^0.3.0",
     "@size-limit/preset-small-lib": "^9.0.0",
     "@types/express": "^4.17.17",
     "@types/htmlescape": "^1.1.1",
