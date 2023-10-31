@@ -1,6 +1,6 @@
 import React from 'react'
 import {isSSR} from '../common/ssr'
-import {serialize, parse} from '../common/json'
+import {stringify, parse} from '../common/json'
 import {useAppContext} from './context'
 
 const STATE_NAME = 'SERVER_APP_STATE'
@@ -53,7 +53,7 @@ export const State: React.FC<StateProps> = ({name = STATE_NAME, state}) => {
     <script
       id={`__${name.toUpperCase()}__`}
       type="application/json"
-      dangerouslySetInnerHTML={{__html: serialize(state ?? context)}}
+      dangerouslySetInnerHTML={{__html: stringify(state ?? context)}}
     />
   )
 }
