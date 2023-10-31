@@ -1,10 +1,10 @@
 [
   {
     "path": "dist/client/index.js",
-    "limit": "6.65 KB"
+    "limit": "6.76 KB"
   },
   {
     "path": "dist/server/index.js",
-    "limit": "6.65 KB"
+    "limit": "6.76 KB"
   }
 ]

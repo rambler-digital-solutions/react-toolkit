@@ -2,6 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  roots: ['./src'],
   moduleDirectories: ['packages', 'node_modules'],
   collectCoverage: true,
   coverageReporters: ['text'],
