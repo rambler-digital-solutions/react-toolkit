@@ -4,5 +4,9 @@ module.exports = {
   testEnvironment: 'node',
   moduleDirectories: ['packages', 'node_modules'],
   collectCoverage: true,
-  coverageReporters: ['text']
+  coverageReporters: ['text'],
+  transformIgnorePatterns: ['node_modules/(?!' + ['superjson'].join('|') + ')'],
+  transform: {
+    '^.+\\.jsx?$': ['ts-jest', {useESM: true}]
+  }
 }

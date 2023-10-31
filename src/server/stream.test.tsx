@@ -1,6 +1,5 @@
 import {Writable} from 'stream'
 import {renderToStream} from './stream'
-import {serialize} from '../common/json'
 import {routes} from '../test/routes'
 import {Layout} from '../test/components/layout'
 import {Document} from '../test/components/document'
@@ -31,7 +30,7 @@ test('get page with status code 200', async () => {
   expect(res.status).toBeCalledWith(200)
   expect(res.data).toContain('<title>Home</title>')
   expect(res.data).toContain('<h1>Home</h1>')
-  expect(res.data).toContain(serialize({message: 'Hello'}))
+  expect(res.data).toContain(JSON.stringify({message: 'Hello'}))
 })
 
 test('get redirect with status code 302', async () => {
@@ -49,7 +48,7 @@ test('get not found with status code 404', async () => {
   expect(res.status).toBeCalledWith(404)
   expect(res.data).toContain('<title>404</title>')
   expect(res.data).toContain('<h1>Not found</h1>')
-  expect(res.data).toContain(serialize({statusCode: 404}))
+  expect(res.data).toContain(JSON.stringify({statusCode: 404}))
 })
 
 test('get page with assets', async () => {
@@ -106,7 +105,7 @@ test('get page with custom context param', async () => {
   expect(res.data).toContain('<title>Custom context</title>')
   expect(res.data).toContain('<h1>Custom context</h1>')
   expect(res.data).toContain('__INITIAL_STATE__')
-  expect(res.data).toContain(serialize({message: 'Hello'}))
+  expect(res.data).toContain(JSON.stringify({message: 'Hello'}))
 })
 
 test('get page with custom context in layout', async () => {
@@ -121,5 +120,5 @@ test('get page with custom context in layout', async () => {
   expect(store.getState).toBeCalledTimes(1)
   expect(res.data).toContain('<h1>No get data</h1>')
   expect(res.data).toContain('__INITIAL_STATE__')
-  expect(res.data).toContain(serialize({message: 'Custom'}))
+  expect(res.data).toContain(JSON.stringify({message: 'Custom'}))
 })
