@@ -1,6 +1,6 @@
 import React from 'react'
 import {isSSR} from '../common/ssr'
-import {serialize, parse} from '../common/json'
+import {serialize, parse} from 'superjson'
 import {useAppContext} from './context'
 
 const STATE_NAME = 'SERVER_APP_STATE'
