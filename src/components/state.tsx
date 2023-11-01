@@ -38,12 +38,7 @@ export interface StateProps {
  * ```
  */
 export const State: React.FC<StateProps> = ({name = STATE_NAME, state}) => {
-  const {
-    req: _req,
-    res: _res,
-    onChangeMetaData: _,
-    ...context
-  } = useAppContext()
+  const {data, meta, styles, scripts} = useAppContext()
 
   if (!isSSR) {
     return
@@ -53,7 +48,9 @@ export const State: React.FC<StateProps> = ({name = STATE_NAME, state}) => {
     <script
       id={`__${name.toUpperCase()}__`}
       type="application/json"
-      dangerouslySetInnerHTML={{__html: stringify(state ?? context)}}
+      dangerouslySetInnerHTML={{
+        __html: stringify(state ?? {data, meta, styles, scripts})
+      }}
     />
   )
 }
