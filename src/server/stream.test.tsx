@@ -25,12 +25,13 @@ beforeEach(() => {
 
 test('get page with status code 200', async () => {
   req.path = '/'
-  await renderToStream({req, res, routes})
+  await renderToStream({req, res, routes, foo: {bar: 'baz'}})
 
   expect(res.status).toBeCalledWith(200)
   expect(res.data).toContain('<title>Home</title>')
   expect(res.data).toContain('<h1>Home</h1>')
   expect(res.data).toContain(JSON.stringify({message: 'Hello'}))
+  expect(res.data).not.toContain(JSON.stringify({bar: 'baz'}))
 })
 
 test('get redirect with status code 302', async () => {
