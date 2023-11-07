@@ -5,8 +5,7 @@ export type {
   Context,
   InitialData,
   MetaData,
-  GetInitialData,
-  GetMetaData,
+  Loader,
   PageComponent,
   LazyPageComponent,
   PageRoute

@@ -24,18 +24,13 @@ export interface InitialData extends Record<string, any> {
   statusCode?: number
 }
 
-/** Get initial data for a page */
-export type GetInitialData = (
-  context: Context
-) => InitialData | void | Promise<InitialData | void>
-
 /** Meta data interface */
 export interface MetaData extends Record<string, any> {}
 
-/** Get meta data for a page */
-export type GetMetaData = (
-  context: Context
-) => MetaData | void | Promise<MetaData | void>
+/** Page data loader */
+export interface Loader<T, C = any> {
+  (context: Context & C): T | void | Promise<T | void>
+}
 
 /**
  * Page component
@@ -71,14 +66,14 @@ export type GetMetaData = (
  * ```
  */
 export type PageComponent<P = any> = React.ComponentType<P> & {
-  getMetaData?: GetMetaData
-  getInitialData?: GetInitialData
+  getMetaData?: Loader<MetaData, {data: InitialData}>
+  getInitialData?: Loader<InitialData>
 }
 
 /** Lazy page component */
 export interface LazyPageComponent extends React.LazyExoticComponent<any> {
-  getMetaData: GetMetaData
-  getInitialData: GetInitialData
+  getMetaData: Loader<MetaData, {data: InitialData}>
+  getInitialData: Loader<InitialData>
 }
 
 /** Page route object for React Router */

@@ -3,8 +3,8 @@ import type {PageComponent} from '../../client'
 
 const HomePage: PageComponent = () => <h1>Home</h1>
 
-HomePage.getMetaData = async () => ({
-  title: 'Home'
+HomePage.getMetaData = async ({data}) => ({
+  title: 'Home: ' + data.message
 })
 
 HomePage.getInitialData = async () => ({

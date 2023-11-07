@@ -34,14 +34,9 @@ export const loadRouteData = async ({
   const {
     route: {Component}
   } = match
-  const promises = []
 
-  promises.push(
-    Component.getInitialData?.({...context, match}) ?? Promise.resolve(),
-    Component.getMetaData?.({...context, match}) ?? Promise.resolve()
-  )
-
-  const [data, meta] = await Promise.all(promises)
+  const data = await Component.getInitialData?.({...context, match})
+  const meta = await Component.getMetaData?.({...context, data, match})
 
   return {data, meta, match}
 }
