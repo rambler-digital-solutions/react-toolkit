@@ -63,6 +63,16 @@ test('get page with assets', async () => {
   expect(res.data).toContain('<script src="/app.js" defer=""></script>')
 })
 
+test('get page with location object in context', async () => {
+  req.path = '/location'
+  await renderToStream({req, res, routes})
+
+  expect(res.status).toBeCalledWith(200)
+  expect(res.data).toContain('<title>Location: /location</title>')
+  expect(res.data).toContain('<h1>Location</h1>')
+  expect(res.data).toContain(JSON.stringify({pathname: '/location'}))
+})
+
 test('get page with custom layout', async () => {
   req.path = '/'
   await renderToStream({req, res, routes, Layout})
