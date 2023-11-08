@@ -32,6 +32,12 @@ export interface Loader<T, C = any> {
   (context: Context & C): T | void | Promise<T | void>
 }
 
+/** Get initial data for a page */
+export type GetInitialData = Loader<InitialData>
+
+/** Get meta data for a page */
+export type GetMetaData = Loader<MetaData, {data: InitialData}>
+
 /**
  * Page component
  *
@@ -66,14 +72,14 @@ export interface Loader<T, C = any> {
  * ```
  */
 export type PageComponent<P = any> = React.ComponentType<P> & {
-  getMetaData?: Loader<MetaData, {data: InitialData}>
-  getInitialData?: Loader<InitialData>
+  getMetaData?: GetMetaData
+  getInitialData?: GetInitialData
 }
 
 /** Lazy page component */
 export interface LazyPageComponent extends React.LazyExoticComponent<any> {
-  getMetaData: Loader<MetaData, {data: InitialData}>
-  getInitialData: Loader<InitialData>
+  getMetaData: GetMetaData
+  getInitialData: GetInitialData
 }
 
 /** Page route object for React Router */
