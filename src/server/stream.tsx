@@ -1,6 +1,7 @@
 import React from 'react'
 import {renderToPipeableStream} from 'react-dom/server'
 import {StaticRouter} from 'react-router-dom/server'
+import type {Location} from 'history'
 import type {Request, Response} from 'express'
 import {RenderOptions} from '../common/types'
 import {AppContextProvider} from '../components/context'
@@ -72,6 +73,9 @@ export const renderToStream = async (
   const context = {
     req,
     res,
+    location: {
+      pathname
+    } as Location,
     ...rest
   }
 

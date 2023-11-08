@@ -6,6 +6,7 @@ const HomePage = lazy(() => import('./components/home'))
 const GetData = lazy(() => import('./components/get-data'))
 const GetAsyncData = lazy(() => import('./components/get-async-data'))
 const Param = lazy(() => import('./components/param'))
+const Location = lazy(() => import('./components/location'))
 const CustomContext = lazy(() => import('./components/custom-context'))
 const NoGetData = lazy(() => import('./components/no-get-data'))
 const Redirect = lazy(() => import('./components/redirect'))
@@ -42,6 +43,10 @@ export const routes: PageRoute[] = [
   {
     path: '/redirect',
     Component: Redirect
+  },
+  {
+    path: '/location',
+    Component: Location
   },
   {
     path: '*',

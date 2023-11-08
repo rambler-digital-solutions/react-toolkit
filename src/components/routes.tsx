@@ -48,7 +48,7 @@ export const Routes: React.FC<RoutesProps> = ({routes}) => {
 
       setRouteData((prevState) => ({...prevState, isLoading: true}))
 
-      loadRouteData({routes, pathname, context}).then((routeData) => {
+      loadRouteData({pathname, routes, context}).then((routeData) => {
         window.scrollTo(0, 0)
         setRouteData((prevState) => ({
           ...prevState,

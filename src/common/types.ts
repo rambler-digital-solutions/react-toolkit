@@ -8,7 +8,7 @@ export interface Context extends Record<string, any> {
   req?: Request
   /** Express [response](https://expressjs.com/en/4x/api.html#res) object (server-only) */
   res?: Response
-  /** Location object (client-only) */
+  /** Location object (client-only, you can only use `location.pathname` on server) */
   location?: Location
   /** React Router navigate function (client-only) */
   navigate?: NavigateFunction
