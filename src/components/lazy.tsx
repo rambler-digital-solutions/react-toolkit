@@ -3,12 +3,20 @@ import type {
   Context,
   PageComponent,
   LazyPageComponent,
+  Loader,
   MetaData,
   InitialData
 } from '../common/types'
 
 /** Component factory */
-export type ComponentFactory = () => Promise<{default: PageComponent}>
+export interface ComponentFactory {
+  (): Promise<{default: PageComponent}>
+}
+
+/** Data factory */
+export interface DataFactory<T, C = any> {
+  (component: PageComponent, context: Context & C): ReturnType<Loader<T, C>>
+}
 
 /**
  * Lazy component wrapper
@@ -23,32 +31,34 @@ export type ComponentFactory = () => Promise<{default: PageComponent}>
  * const AboutPage = lazy(() => import('./pages/about'))
  * ```
  */
-export const lazy = (factory: ComponentFactory): LazyPageComponent => {
+export const lazy = (componentFactory: ComponentFactory): LazyPageComponent => {
   let promise: ReturnType<ComponentFactory>
 
   const onceFactory: ComponentFactory = () => {
-    promise ??= factory()
+    promise ??= componentFactory()
 
     return promise
   }
 
+  function loaderFactory<T, C = any>(
+    dataFactory: DataFactory<T, C>
+  ): Loader<T, C> {
+    return async (context: Context & C) => {
+      const {default: Component} = await onceFactory()
+
+      return dataFactory(Component, context) ?? Promise.resolve()
+    }
+  }
+
   const Component = reactLazy(onceFactory) as LazyPageComponent
 
-  Component.getMetaData = async (
-    context: Context
-  ): Promise<MetaData | void> => {
-    const {default: component} = await onceFactory()
+  Component.getMetaData = loaderFactory<MetaData, {data: InitialData}>(
+    ({getMetaData}, context) => getMetaData?.(context)
+  )
 
-    return component.getMetaData?.(context) ?? Promise.resolve()
-  }
-
-  Component.getInitialData = async (
-    context: Context
-  ): Promise<InitialData | void> => {
-    const {default: component} = await onceFactory()
-
-    return component.getInitialData?.(context) ?? Promise.resolve()
-  }
+  Component.getInitialData = loaderFactory<InitialData>(
+    ({getInitialData}, context) => getInitialData?.(context)
+  )
 
   return Component
 }

@@ -124,6 +124,33 @@ MainPage.getMetaData = () => ({
 export default MainPage
 ```
 
+Getting the meta data is called after the data fetching, so the fetched data enriches the context passed to the `getMetaData`
+
+```tsx
+import React from 'react'
+import {PageComponent} from '@rambler-tech/react-toolkit/client'
+
+const MainPage: PageComponent = () => (
+  <div>
+    <h1>Main page</h1>
+    <p>...</p>
+  </div>
+)
+
+MainPage.getInitialData = async () => {
+  const {someProp} = await api.getSomeProp()
+
+  return {someProp}
+}
+
+MainPage.getMetaData = ({data}) => ({
+  title: `Main page: ${data.someProp}`,
+  description: '...'
+})
+
+export default MainPage
+```
+
 ### Redirects
 
 ```tsx

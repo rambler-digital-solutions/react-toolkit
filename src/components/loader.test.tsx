@@ -21,7 +21,7 @@ test('get initial and meta data', async () => {
 
   expect(matched.match?.pathname).toBe(pathname)
   expect(matched.data).toEqual({message: 'Hello'})
-  expect(matched.meta).toEqual({title: 'Get data'})
+  expect(matched.meta).toEqual({title: 'Get data: Hello'})
 })
 
 test('get async initial and meta data', async () => {
@@ -30,7 +30,7 @@ test('get async initial and meta data', async () => {
 
   expect(matched.match?.pathname).toBe(pathname)
   expect(matched.data).toEqual({message: 'Hello'})
-  expect(matched.meta).toEqual({title: 'Get async data'})
+  expect(matched.meta).toEqual({title: 'Get async data: Hello'})
 })
 
 test('get component with parametrized path', async () => {
@@ -39,7 +39,7 @@ test('get component with parametrized path', async () => {
 
   expect(matched.match?.pathname).toBe(pathname)
   expect(matched.data).toEqual({message: 'Hello'})
-  expect(matched.meta).toEqual({title: 'Param'})
+  expect(matched.meta).toEqual({title: 'Param: Hello'})
 })
 
 test('get component with static import', async () => {
@@ -48,7 +48,7 @@ test('get component with static import', async () => {
 
   expect(matched.match?.pathname).toBe(pathname)
   expect(matched.data).toEqual({message: 'Hello'})
-  expect(matched.meta).toEqual({title: 'Static import'})
+  expect(matched.meta).toEqual({title: 'Static import: Hello'})
 })
 
 test('get component without data', async () => {

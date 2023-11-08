@@ -28,7 +28,7 @@ test('get page with status code 200', async () => {
   await renderToStream({req, res, routes, foo: {bar: 'baz'}})
 
   expect(res.status).toBeCalledWith(200)
-  expect(res.data).toContain('<title>Home</title>')
+  expect(res.data).toContain('<title>Home: Hello</title>')
   expect(res.data).toContain('<h1>Home</h1>')
   expect(res.data).toContain(JSON.stringify({message: 'Hello'}))
   expect(res.data).not.toContain(JSON.stringify({bar: 'baz'}))
@@ -79,7 +79,7 @@ test('get page with custom document', async () => {
   await renderToStream({req, res, routes, ...assets, Document})
 
   expect(res.status).toBeCalledWith(200)
-  expect(res.data).toContain('<title>Home</title>')
+  expect(res.data).toContain('<title>Home: Hello</title>')
   expect(res.data).toContain('<link rel="manifest" href="/manifest.json"/>')
   expect(res.data).toContain('<link href="/app.css" rel="stylesheet"/>')
   expect(res.data).toContain('<script src="/app.js" defer=""></script>')

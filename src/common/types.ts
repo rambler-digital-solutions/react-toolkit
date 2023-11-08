@@ -24,18 +24,19 @@ export interface InitialData extends Record<string, any> {
   statusCode?: number
 }
 
-/** Get initial data for a page */
-export type GetInitialData = (
-  context: Context
-) => InitialData | void | Promise<InitialData | void>
-
 /** Meta data interface */
 export interface MetaData extends Record<string, any> {}
 
+/** Page data loader */
+export interface Loader<T, C = any> {
+  (context: Context & C): T | void | Promise<T | void>
+}
+
+/** Get initial data for a page */
+export type GetInitialData = Loader<InitialData>
+
 /** Get meta data for a page */
-export type GetMetaData = (
-  context: Context
-) => MetaData | void | Promise<MetaData | void>
+export type GetMetaData = Loader<MetaData, {data: InitialData}>
 
 /**
  * Page component
