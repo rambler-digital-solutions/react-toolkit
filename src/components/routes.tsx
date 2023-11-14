@@ -13,10 +13,11 @@ import {loadRouteData} from './loader'
 /** Routing props */
 export interface RoutesProps {
   routes: PageRoute[]
+  scrollToTop?: boolean
 }
 
 /** Routing component with initial and meta data */
-export const Routes: React.FC<RoutesProps> = ({routes}) => {
+export const Routes: React.FC<RoutesProps> = ({routes, scrollToTop}) => {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -49,7 +50,10 @@ export const Routes: React.FC<RoutesProps> = ({routes}) => {
       setRouteData((prevState) => ({...prevState, isLoading: true}))
 
       loadRouteData({pathname, routes, context}).then((routeData) => {
-        window.scrollTo(0, 0)
+        if (scrollToTop) {
+          window.scrollTo(0, 0)
+        }
+
         setRouteData((prevState) => ({
           ...prevState,
           ...routeData,
@@ -59,7 +63,7 @@ export const Routes: React.FC<RoutesProps> = ({routes}) => {
         onChangeMetaData?.(routeData.meta ?? {})
       })
     }
-  }, [location, currentLocation]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Suspense>
