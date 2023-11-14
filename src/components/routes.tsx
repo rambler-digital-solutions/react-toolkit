@@ -17,7 +17,7 @@ export interface RoutesProps {
 }
 
 /** Routing component with initial and meta data */
-export const Routes: React.FC<RoutesProps> = ({routes, scrollToTop = true}) => {
+export const Routes: React.FC<RoutesProps> = ({routes, scrollToTop}) => {
   const location = useLocation()
   const navigate = useNavigate()
 

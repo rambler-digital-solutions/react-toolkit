@@ -10,6 +10,10 @@ import {Document as BaseDocument} from '../components/document'
 
 /** Hydrate from stream options */
 export interface HydrateFromStreamOptions extends RenderOptions {
+  /**
+   * Whether to scroll to top on page transitions
+   * defaults to true
+   */
   scrollToTop?: boolean
 }
 
@@ -31,7 +35,7 @@ export const hydrateFromStream = async (
     routes,
     Layout = BaseLayout,
     Document = BaseDocument,
-    scrollToTop,
+    scrollToTop = true,
     ...rest
   } = options
 
