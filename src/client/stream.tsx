@@ -9,7 +9,9 @@ import {Layout as BaseLayout} from '../components/layout'
 import {Document as BaseDocument} from '../components/document'
 
 /** Hydrate from stream options */
-export interface HydrateFromStreamOptions extends RenderOptions {}
+export interface HydrateFromStreamOptions extends RenderOptions {
+  scrollToTop?: boolean
+}
 
 /**
  * Render app to stream
@@ -29,6 +31,7 @@ export const hydrateFromStream = async (
     routes,
     Layout = BaseLayout,
     Document = BaseDocument,
+    scrollToTop,
     ...rest
   } = options
 
@@ -42,7 +45,7 @@ export const hydrateFromStream = async (
       <Document>
         <BrowserRouter>
           <Layout {...rest}>
-            <Routes routes={routes} />
+            <Routes routes={routes} scrollToTop={scrollToTop} />
           </Layout>
         </BrowserRouter>
       </Document>
