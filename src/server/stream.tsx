@@ -68,14 +68,32 @@ export const renderToStream = async (
     Document = BaseDocument,
     ...rest
   } = options
-  const {path: pathname} = req
+  const {path: pathname, query} = req
+
+  let search
+
+  if (query) {
+    search =
+      '?' +
+      Object.entries(query)
+        .map(([key, value]) => {
+          return typeof value === 'string' ||
+            typeof value === 'number' ||
+            typeof value === 'boolean'
+            ? `${key}=${encodeURIComponent(value)}`
+            : ''
+        })
+        .join('&')
+  }
 
   const context = {
     req,
     res,
     location: {
-      pathname
+      pathname,
+      search
     } as Location,
+
     ...rest
   }
 

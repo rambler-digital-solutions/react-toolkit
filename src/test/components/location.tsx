@@ -8,7 +8,8 @@ Location.getMetaData = async ({data}) => ({
 })
 
 Location.getInitialData = async ({location}) => ({
-  pathname: location.pathname
+  pathname: location.pathname,
+  search: location.search
 })
 
 export default Location

@@ -65,12 +65,15 @@ test('get page with assets', async () => {
 
 test('get page with location object in context', async () => {
   req.path = '/location'
+  req.query = {foo: 'bar'}
   await renderToStream({req, res, routes})
 
   expect(res.status).toBeCalledWith(200)
   expect(res.data).toContain('<title>Location: /location</title>')
   expect(res.data).toContain('<h1>Location</h1>')
-  expect(res.data).toContain(JSON.stringify({pathname: '/location'}))
+  expect(res.data).toContain(
+    JSON.stringify({pathname: '/location', search: '?foo=bar'})
+  )
 })
 
 test('get page with custom layout', async () => {
