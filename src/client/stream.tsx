@@ -1,7 +1,7 @@
 import React from 'react'
 import {hydrateRoot} from 'react-dom/client'
 import {BrowserRouter} from 'react-router-dom'
-import {RenderOptions} from '../common/types'
+import {RenderOptions, TransitionMode} from '../common/types'
 import {getState} from '../components/state'
 import {AppContextProvider} from '../components/context'
 import {Routes} from '../components/routes'
@@ -11,10 +11,13 @@ import {Document as BaseDocument} from '../components/document'
 /** Hydrate from stream options */
 export interface HydrateFromStreamOptions extends RenderOptions {
   /**
-   * Whether to scroll to top on page transitions
-   * defaults to true
+   * Whether to scroll to top on page transitions, defaults to true
    */
   scrollToTop?: boolean
+  /**
+   * Page transition mode, defaults to blocked
+   */
+  transition?: TransitionMode
 }
 
 /**
@@ -36,6 +39,7 @@ export const hydrateFromStream = async (
     Layout = BaseLayout,
     Document = BaseDocument,
     scrollToTop = true,
+    transition = TransitionMode.BLOCKED,
     ...rest
   } = options
 
@@ -49,7 +53,11 @@ export const hydrateFromStream = async (
       <Document>
         <BrowserRouter>
           <Layout {...rest}>
-            <Routes routes={routes} scrollToTop={scrollToTop} />
+            <Routes
+              routes={routes}
+              scrollToTop={scrollToTop}
+              transition={transition}
+            />
           </Layout>
         </BrowserRouter>
       </Document>

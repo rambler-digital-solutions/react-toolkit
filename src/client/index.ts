@@ -1,16 +1,17 @@
 export {type DocumentProps, Document} from '../components/document'
 export {type LayoutProps, Layout} from '../components/layout'
 export {type ComponentFactory, lazy} from '../components/lazy'
-export type {
-  Context,
-  InitialData,
-  MetaData,
-  GetInitialData,
-  GetMetaData,
-  Loader,
-  PageComponent,
-  LazyPageComponent,
-  PageRoute
+export {
+  type Context,
+  type InitialData,
+  type MetaData,
+  type GetInitialData,
+  type GetMetaData,
+  type Loader,
+  type PageComponent,
+  type LazyPageComponent,
+  type PageRoute,
+  TransitionMode
 } from '../common/types'
 export {Meta} from '../components/meta'
 export {Preloads} from '../components/preloads'
