@@ -65,7 +65,7 @@ test('get page with assets', async () => {
 
 test('get page with location object in context', async () => {
   req.path = '/location'
-  req.query = {foo: 'bar'}
+  req.originalUrl = '/location?foo=bar'
   await renderToStream({req, res, routes})
 
   expect(res.status).toBeCalledWith(200)

@@ -68,23 +68,10 @@ export const renderToStream = async (
     Document = BaseDocument,
     ...rest
   } = options
-  const {path: pathname, query} = req
+  const {path: pathname, originalUrl} = req
 
-  let search
-
-  if (query) {
-    search =
-      '?' +
-      Object.entries(query)
-        .map(([key, value]) => {
-          return typeof value === 'string' ||
-            typeof value === 'number' ||
-            typeof value === 'boolean'
-            ? `${key}=${encodeURIComponent(value)}`
-            : ''
-        })
-        .join('&')
-  }
+  const index = originalUrl?.indexOf('?')
+  const search = index >= 0 ? originalUrl.slice(index) : undefined
 
   const context = {
     req,
