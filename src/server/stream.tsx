@@ -68,14 +68,19 @@ export const renderToStream = async (
     Document = BaseDocument,
     ...rest
   } = options
-  const {path: pathname} = req
+  const {path: pathname, originalUrl} = req
+
+  const index = originalUrl?.indexOf('?')
+  const search = index >= 0 ? originalUrl.slice(index) : ''
 
   const context = {
     req,
     res,
     location: {
-      pathname
+      pathname,
+      search
     } as Location,
+
     ...rest
   }
 
