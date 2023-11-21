@@ -84,7 +84,18 @@ export interface LazyPageComponent extends React.LazyExoticComponent<any> {
 
 /** Page route object for React Router */
 export type PageRoute = RouteProps & {
+  /** Fallback component for Suspense */
+  Fallback?: React.ComponentType<any>
+  /** Page component */
   Component: PageComponent | LazyPageComponent
+}
+
+/** Page transition mode */
+export enum TransitionMode {
+  /** Wait for `getInitialData` to get completed, and show the next page */
+  BLOCKED = 'blocked',
+  /** Show the next page with spinner or skeleton while `getInitialData` is pending */
+  INSTANT = 'instant'
 }
 
 /** Base render/hydrate options */

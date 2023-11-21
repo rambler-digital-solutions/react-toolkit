@@ -6,7 +6,7 @@ import {
   Route,
   Routes as BaseRoutes
 } from 'react-router-dom'
-import {type PageRoute} from '../common/types'
+import {type PageRoute, TransitionMode} from '../common/types'
 import {useAppContext} from './context'
 import {loadRouteData} from './loader'
 
@@ -14,10 +14,15 @@ import {loadRouteData} from './loader'
 export interface RoutesProps {
   routes: PageRoute[]
   scrollToTop?: boolean
+  transition?: TransitionMode
 }
 
 /** Routing component with initial and meta data */
-export const Routes: React.FC<RoutesProps> = ({routes, scrollToTop}) => {
+export const Routes: React.FC<RoutesProps> = ({
+  routes,
+  scrollToTop,
+  transition
+}) => {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -49,8 +54,12 @@ export const Routes: React.FC<RoutesProps> = ({routes, scrollToTop}) => {
 
       setRouteData((prevState) => ({...prevState, isLoading: true}))
 
+      if (scrollToTop && transition === TransitionMode.INSTANT) {
+        window.scrollTo(0, 0)
+      }
+
       loadRouteData({pathname, routes, context}).then((routeData) => {
-        if (scrollToTop) {
+        if (scrollToTop && transition !== TransitionMode.INSTANT) {
           window.scrollTo(0, 0)
         }
 
@@ -59,25 +68,31 @@ export const Routes: React.FC<RoutesProps> = ({routes, scrollToTop}) => {
           ...routeData,
           isLoading: false
         }))
+
         setCurrentLocation(location)
         onChangeMetaData?.(routeData.meta ?? {})
       })
     }
   }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const routerLocation =
+    transition === TransitionMode.INSTANT ? location : currentLocation
+
   return (
-    <Suspense>
-      <BaseRoutes location={currentLocation}>
-        {routeData.data?.redirect && <Navigate to={routeData.data.redirect} />}
-        {routes.map(({path, Component, ...routeProps}) => (
-          <Route
-            {...routeProps}
-            key={path}
-            path={path}
-            element={<Component {...rest} {...routeData.data} />}
-          />
-        ))}
-      </BaseRoutes>
-    </Suspense>
+    <BaseRoutes location={routerLocation}>
+      {routeData.data?.redirect && <Navigate to={routeData.data.redirect} />}
+      {routes.map(({path, Component, Fallback, ...routeProps}) => (
+        <Route
+          {...routeProps}
+          key={path}
+          path={path}
+          element={
+            <Suspense fallback={Fallback ? <Fallback /> : null}>
+              <Component {...rest} {...routeData.data} />
+            </Suspense>
+          }
+        />
+      ))}
+    </BaseRoutes>
   )
 }

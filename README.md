@@ -28,11 +28,11 @@ const AboutPage = lazy(() => import('./pages/about'))
 export const routes = [
   {
     path: '/',
-    component: MainPage
+    Component: MainPage
   },
   {
     path: '/about',
-    component: AboutPage
+    Component: AboutPage
   }
 ]
 ```
@@ -331,6 +331,45 @@ import {MyDocument} from './document'
 hydrateFromStream({
   routes,
   Document: MyDocument
+})
+```
+
+### Page transition mode
+
+By default, router uses `blocked` transition mode, and will wait for `getInitialData` to get completed to show the next page.
+
+If your want show the next page with spinner or skeleton while `getInitialData` is pending, use `instant` transition mode.
+
+```ts
+// src/routes.ts
+import {lazy} from '@rambler-tech/react-toolkit/client'
+import {Placeholder} from './components/placeholder'
+
+const MainPage = lazy(() => import('./pages/main'))
+const AboutPage = lazy(() => import('./pages/about'))
+
+export const routes = [
+  {
+    path: '/',
+    Placeholder,
+    Component: MainPage
+  },
+  {
+    path: '/about',
+    Placeholder,
+    Component: AboutPage
+  }
+]
+```
+
+```ts
+// src/client.ts
+import {hydrateFromStream, TransitionMode} from '@rambler-tech/react-toolkit/client'
+import {routes} from './routes'
+
+hydrateFromStream({
+  routes,
+  transition: TransitionMode.INSTANT
 })
 ```
 
