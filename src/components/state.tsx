@@ -78,9 +78,13 @@ export const getState = <T extends Record<string, any>>(
   name = STATE_NAME
 ): T => {
   const script = document.getElementById(`__${name.toUpperCase()}__`)!
-  const state = parse<T>(script.textContent!)
 
-  script.remove()
+  let state
 
-  return state
+  if (script) {
+    state = parse<T>(script.textContent!)
+    script.remove()
+  }
+
+  return state as T
 }
