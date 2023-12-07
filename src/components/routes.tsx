@@ -88,7 +88,11 @@ export const Routes: React.FC<RoutesProps> = ({
           path={path}
           element={
             <Suspense fallback={Fallback ? <Fallback /> : null}>
-              <Component {...rest} {...routeData.data} />
+              {routeData.isLoading && Fallback ? (
+                <Fallback />
+              ) : (
+                <Component {...rest} {...routeData.data} />
+              )}
             </Suspense>
           }
         />
