@@ -100,9 +100,9 @@ export enum TransitionMode {
   /** Wait for `getInitialData` to get completed, and show the next page */
   BLOCKED = 'blocked',
   /** Show Fallback component while `getInitialData` is pending */
-  WAIT_FOR_DATA = 'wait_for_data',
+  WAIT_FOR_DATA = 'wait-for-data',
   /** Show Fallback component while Suspense is pending */
-  WAIT_FOR_SUSPENSE = 'wait_for_suspense'
+  INSTANT = 'instant'
 }
 
 /** Base render/hydrate options */

@@ -57,7 +57,7 @@ export const Routes: React.FC<RoutesProps> = ({
       if (
         scrollToTop &&
         (transition === TransitionMode.WAIT_FOR_DATA ||
-          transition === TransitionMode.WAIT_FOR_SUSPENSE)
+          transition === TransitionMode.INSTANT)
       ) {
         window.scrollTo(0, 0)
       }
@@ -81,7 +81,7 @@ export const Routes: React.FC<RoutesProps> = ({
 
   const routerLocation =
     transition === TransitionMode.WAIT_FOR_DATA ||
-    transition === TransitionMode.WAIT_FOR_SUSPENSE
+    transition === TransitionMode.INSTANT
       ? location
       : currentLocation
 
