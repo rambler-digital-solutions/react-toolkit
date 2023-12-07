@@ -73,7 +73,10 @@ export type GetMetaData = Loader<MetaData, {data: InitialData}>
  * export default MainPage
  * ```
  */
-export type PageComponent<P = any> = React.ComponentType<P> & {
+
+export type PageComponent<P = any> = React.ComponentType<
+  P & {isLoading: boolean}
+> & {
   getMetaData?: GetMetaData
   getInitialData?: GetInitialData
 }
@@ -96,8 +99,10 @@ export type PageRoute = RouteProps & {
 export enum TransitionMode {
   /** Wait for `getInitialData` to get completed, and show the next page */
   BLOCKED = 'blocked',
-  /** Show the next page with spinner or skeleton while `getInitialData` is pending */
-  INSTANT = 'instant'
+  /** Show Fallback component while `getInitialData` is pending */
+  WAIT_FOR_DATA = 'wait_for_data',
+  /** Show Fallback component while Suspense is pending */
+  WAIT_FOR_SUSPENSE = 'wait_for_suspense'
 }
 
 /** Base render/hydrate options */

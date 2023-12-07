@@ -54,12 +54,16 @@ export const Routes: React.FC<RoutesProps> = ({
 
       setRouteData((prevState) => ({...prevState, isLoading: true}))
 
-      if (scrollToTop && transition === TransitionMode.INSTANT) {
+      if (
+        scrollToTop &&
+        (transition === TransitionMode.WAIT_FOR_DATA ||
+          transition === TransitionMode.WAIT_FOR_SUSPENSE)
+      ) {
         window.scrollTo(0, 0)
       }
 
       loadRouteData({pathname, routes, context}).then((routeData) => {
-        if (scrollToTop && transition !== TransitionMode.INSTANT) {
+        if (scrollToTop && transition === TransitionMode.BLOCKED) {
           window.scrollTo(0, 0)
         }
 
@@ -76,7 +80,12 @@ export const Routes: React.FC<RoutesProps> = ({
   }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const routerLocation =
-    transition === TransitionMode.INSTANT ? location : currentLocation
+    transition === TransitionMode.WAIT_FOR_DATA ||
+    transition === TransitionMode.WAIT_FOR_SUSPENSE
+      ? location
+      : currentLocation
+
+  const pageData = {...routeData.data, isLoading: routeData.isLoading}
 
   return (
     <BaseRoutes location={routerLocation}>
@@ -88,10 +97,12 @@ export const Routes: React.FC<RoutesProps> = ({
           path={path}
           element={
             <Suspense fallback={Fallback ? <Fallback /> : null}>
-              {routeData.isLoading && Fallback ? (
+              {transition === TransitionMode.WAIT_FOR_DATA &&
+              routeData.isLoading &&
+              Fallback ? (
                 <Fallback />
               ) : (
-                <Component {...rest} {...routeData.data} />
+                <Component {...rest} {...pageData} />
               )}
             </Suspense>
           }
