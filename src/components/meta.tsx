@@ -10,10 +10,10 @@ export const Meta: React.FC = () => {
       {Object.entries(meta).map(([name, content = '']) =>
         name === 'title' ? (
           <title key={name}>{content}</title>
-        ) : name.startsWith('og:') ? (
-          <meta key={name} property={name} content={content} />
         ) : HEAD_LINKS_RELS.includes(name) ? (
           <link key={`${name}${content}`} rel={name} href={content} />
+        ) : name.startsWith('og:') ? (
+          <meta key={name} property={name} content={content} />
         ) : (
           <meta key={name} name={name} content={content} />
         )
