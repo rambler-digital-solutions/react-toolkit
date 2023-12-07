@@ -25,11 +25,7 @@ export interface InitialData extends Record<string, any> {
 }
 
 /** Meta data interface */
-export interface MetaData {
-  title?: string
-  meta?: Record<string, any>
-  links?: Record<string, any>
-}
+export interface MetaData extends Record<string, any> {}
 
 /** Page data loader */
 export interface Loader<T, C = any> {
@@ -62,14 +58,10 @@ export type GetMetaData = Loader<MetaData, {data: InitialData}>
  * )
  *
  * MainPage.getMetaData = () => ({
- * title: 'Main page',
- * meta: {
+ *   title: 'Main page',
  *   description: '...',
  *   ['og:image']: '...'
- * },
- * links: {
  *   canonical: '...'
- * }
  * })
  *
  * MainPage.getInitialData = async () => {

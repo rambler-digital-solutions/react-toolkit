@@ -118,13 +118,9 @@ const MainPage: PageComponent = () => (
 
 MainPage.getMetaData = () => ({
   title: 'Main page',
-  meta: {
-    description: '...',
-    ['og:image']: '...'
-  },
-  links: {
-    canonical: '...'
-  }
+  description: '...',
+  ['og:image']: '...'
+  canonical: '...'
 })
 
 export default MainPage
