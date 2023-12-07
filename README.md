@@ -8,7 +8,7 @@ Toolkit for server-side rendered route based apps built with React and React Rou
 npm install @rambler-tech/react-toolkit
 ```
 
-or 
+or
 
 ```sh
 yarn add @rambler-tech/react-toolkit
@@ -118,7 +118,9 @@ const MainPage: PageComponent = () => (
 
 MainPage.getMetaData = () => ({
   title: 'Main page',
-  description: '...'
+  description: '...',
+  'og:image': '...'
+  canonical: '...'
 })
 
 export default MainPage
@@ -144,8 +146,7 @@ MainPage.getInitialData = async () => {
 }
 
 MainPage.getMetaData = ({data}) => ({
-  title: `Main page: ${data.someProp}`,
-  description: '...'
+  title: `Main page: ${data.someProp}`
 })
 
 export default MainPage
@@ -257,7 +258,13 @@ For adding custom styles, scripts, meta tags and for more flexible customization
 ```tsx
 // src/document.tsx
 import React, {FC, ReactNode} from 'react'
-import {Meta, Preloads, Styles, Scripts, State} from '@rambler-tech/react-toolkit/client'
+import {
+  Meta,
+  Preloads,
+  Styles,
+  Scripts,
+  State
+} from '@rambler-tech/react-toolkit/client'
 
 export interface MyDocumentProps {
   children: ReactNode
@@ -364,7 +371,10 @@ export const routes = [
 
 ```ts
 // src/client.ts
-import {hydrateFromStream, TransitionMode} from '@rambler-tech/react-toolkit/client'
+import {
+  hydrateFromStream,
+  TransitionMode
+} from '@rambler-tech/react-toolkit/client'
 import {routes} from './routes'
 
 hydrateFromStream({

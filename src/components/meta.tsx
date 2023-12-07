@@ -10,6 +10,8 @@ export const Meta: React.FC = () => {
       {Object.entries(meta).map(([name, content = '']) =>
         name === 'title' ? (
           <title key={name}>{content}</title>
+        ) : HEAD_LINKS_RELS.includes(name) ? (
+          <link key={`${name}${content}`} rel={name} href={content} />
         ) : name.startsWith('og:') ? (
           <meta key={name} property={name} content={content} />
         ) : (
@@ -19,3 +21,16 @@ export const Meta: React.FC = () => {
     </>
   )
 }
+
+const HEAD_LINKS_RELS = [
+  'canonical',
+  'alternate',
+  'icon',
+  'license',
+  'manifest',
+  'dns-prefetch',
+  'prefetch',
+  'preconnect',
+  'preload',
+  'stylesheet'
+]

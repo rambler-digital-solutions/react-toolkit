@@ -59,7 +59,9 @@ export type GetMetaData = Loader<MetaData, {data: InitialData}>
  *
  * MainPage.getMetaData = () => ({
  *   title: 'Main page',
- *   description: '...'
+ *   description: '...',
+ *   'og:image': '...'
+ *   canonical: '...'
  * })
  *
  * MainPage.getInitialData = async () => {
