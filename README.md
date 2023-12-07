@@ -119,7 +119,7 @@ const MainPage: PageComponent = () => (
 MainPage.getMetaData = () => ({
   title: 'Main page',
   description: '...',
-  ['og:image']: '...'
+  'og:image': '...'
   canonical: '...'
 })
 
