@@ -40,6 +40,9 @@ export const Routes: React.FC<RoutesProps> = ({
   const [currentLocation, setCurrentLocation] = useState(location)
   const [routeData, setRouteData] = useState({data, meta, isLoading: false})
 
+  const isWaitingMode = transition === TransitionMode.WAIT_FOR_DATA
+  const isBlockedMode = !isWaitingMode && transition !== TransitionMode.INSTANT
+
   useEffect(() => {
     if (location !== currentLocation) {
       const {pathname} = location
@@ -54,16 +57,12 @@ export const Routes: React.FC<RoutesProps> = ({
 
       setRouteData((prevState) => ({...prevState, isLoading: true}))
 
-      if (
-        scrollToTop &&
-        (transition === TransitionMode.WAIT_FOR_DATA ||
-          transition === TransitionMode.INSTANT)
-      ) {
+      if (scrollToTop && !isBlockedMode) {
         window.scrollTo(0, 0)
       }
 
       loadRouteData({pathname, routes, context}).then((routeData) => {
-        if (scrollToTop && transition === TransitionMode.BLOCKED) {
+        if (scrollToTop && isBlockedMode) {
           window.scrollTo(0, 0)
         }
 
@@ -79,13 +78,7 @@ export const Routes: React.FC<RoutesProps> = ({
     }
   }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const routerLocation =
-    transition === TransitionMode.WAIT_FOR_DATA ||
-    transition === TransitionMode.INSTANT
-      ? location
-      : currentLocation
-
-  const pageData = {...routeData.data, isLoading: routeData.isLoading}
+  const routerLocation = isBlockedMode ? currentLocation : location
 
   return (
     <BaseRoutes location={routerLocation}>
@@ -97,12 +90,14 @@ export const Routes: React.FC<RoutesProps> = ({
           path={path}
           element={
             <Suspense fallback={Fallback ? <Fallback /> : null}>
-              {transition === TransitionMode.WAIT_FOR_DATA &&
-              routeData.isLoading &&
-              Fallback ? (
+              {isWaitingMode && routeData.isLoading && Fallback ? (
                 <Fallback />
               ) : (
-                <Component {...rest} {...pageData} />
+                <Component
+                  {...rest}
+                  {...routeData.data}
+                  isLoading={routeData.isLoading}
+                />
               )}
             </Suspense>
           }

@@ -1,4 +1,8 @@
-import type {RouteProps, NavigateFunction, RouteMatch} from 'react-router-dom'
+import type {
+  PathRouteProps,
+  NavigateFunction,
+  RouteMatch
+} from 'react-router-dom'
 import type {Location} from 'history'
 import type {Request, Response} from 'express'
 
@@ -82,13 +86,14 @@ export type PageComponent<P = any> = React.ComponentType<
 }
 
 /** Lazy page component */
-export interface LazyPageComponent extends React.LazyExoticComponent<any> {
+export interface LazyPageComponent<P = any>
+  extends React.LazyExoticComponent<PageComponent<P>> {
   getMetaData: GetMetaData
   getInitialData: GetInitialData
 }
 
 /** Page route object for React Router */
-export type PageRoute = RouteProps & {
+export type PageRoute = Omit<PathRouteProps, 'Component'> & {
   /** Fallback component for Suspense */
   Fallback?: React.ComponentType<any>
   /** Page component */
@@ -99,9 +104,9 @@ export type PageRoute = RouteProps & {
 export enum TransitionMode {
   /** Wait for `getInitialData` to get completed, and show the next page */
   BLOCKED = 'blocked',
-  /** Show Fallback component while `getInitialData` is pending */
+  /** Show the next page with fallback while `getInitialData` is pending */
   WAIT_FOR_DATA = 'wait-for-data',
-  /** Show Fallback component while Suspense is pending */
+  /** Show the next page with fallback while lazy page is pending */
   INSTANT = 'instant'
 }
 
