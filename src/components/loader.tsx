@@ -1,11 +1,25 @@
 import {matchRoutes, type RouteMatch} from 'react-router-dom'
 import {Context, PageRoute, InitialData, MetaData} from '../common/types'
 
-/** Route loader options */
-export interface LoadRouteDataOptions {
-  context: Context
+/** Match route options */
+export interface MatchRouteOptions {
   pathname: string
   routes: PageRoute[]
+}
+
+/** Match route */
+export const matchRoute = ({
+  pathname,
+  routes
+}: MatchRouteOptions): RouteMatch<string, any> => {
+  const [match] = matchRoutes<any>(routes, pathname) ?? []
+
+  return match
+}
+
+/** Route loader options */
+export interface LoadRouteDataOptions extends MatchRouteOptions {
+  context: Context
 }
 
 /** Route data */
@@ -21,7 +35,7 @@ export const loadRouteData = async ({
   routes,
   context
 }: LoadRouteDataOptions): Promise<RouteData> => {
-  const [match] = matchRoutes<any>(routes, pathname) ?? []
+  const match = matchRoute({pathname, routes})
 
   if (!match) {
     return {

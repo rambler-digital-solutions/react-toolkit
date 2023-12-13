@@ -88,6 +88,7 @@ export type PageComponent<P = any> = React.ComponentType<
 /** Lazy page component */
 export interface LazyPageComponent<P = any>
   extends React.LazyExoticComponent<PageComponent<P>> {
+  preload: Loader<void>
   getMetaData: GetMetaData
   getInitialData: GetInitialData
 }

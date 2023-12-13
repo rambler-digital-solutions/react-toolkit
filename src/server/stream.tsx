@@ -80,7 +80,6 @@ export const renderToStream = async (
       pathname,
       search
     } as Location,
-
     ...rest
   }
 

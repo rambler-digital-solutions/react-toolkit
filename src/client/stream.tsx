@@ -4,6 +4,7 @@ import {BrowserRouter} from 'react-router-dom'
 import {RenderOptions, TransitionMode} from '../common/types'
 import {getState} from '../components/state'
 import {AppContextProvider} from '../components/context'
+import {matchRoute} from '../components/loader'
 import {Routes} from '../components/routes'
 import {Layout as BaseLayout} from '../components/layout'
 import {Document as BaseDocument} from '../components/document'
@@ -33,7 +34,8 @@ export interface HydrateFromStreamOptions extends RenderOptions {
 export const hydrateFromStream = async (
   options: HydrateFromStreamOptions
 ): Promise<void> => {
-  const state = getState()
+  const {pathname, ...state} = getState()
+
   const {
     routes,
     Layout = BaseLayout,
@@ -63,6 +65,16 @@ export const hydrateFromStream = async (
       </Document>
     </AppContextProvider>
   )
+
+  const match = matchRoute({pathname, routes})
+
+  if (match) {
+    const {
+      route: {Component}
+    } = match
+
+    await Component.preload?.()
+  }
 
   hydrateRoot(document, app)
 }
