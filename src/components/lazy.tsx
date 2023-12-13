@@ -41,12 +41,12 @@ export const lazy = (componentFactory: ComponentFactory): LazyPageComponent => {
   }
 
   function loaderFactory<T, C = any>(
-    dataFactory: DataFactory<T, C>
+    dataFactory?: DataFactory<T, C>
   ): Loader<T, C> {
     return async (context: Context & C) => {
       const {default: Component} = await onceFactory()
 
-      return dataFactory(Component, context) ?? Promise.resolve()
+      return dataFactory?.(Component, context)
     }
   }
 
@@ -59,6 +59,8 @@ export const lazy = (componentFactory: ComponentFactory): LazyPageComponent => {
   Component.getInitialData = loaderFactory<InitialData>(
     ({getInitialData}, context) => getInitialData?.(context)
   )
+
+  Component.preload = loaderFactory<void>()
 
   return Component
 }

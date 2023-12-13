@@ -345,7 +345,9 @@ hydrateFromStream({
 
 By default, router uses `blocked` transition mode, and will wait for `getInitialData` to get completed to show the next page.
 
-If your want show the next page with spinner or skeleton while `getInitialData` is pending, use `instant` transition mode.
+If your want show the next page with spinner or skeleton while `getInitialData` is pending, use `wait-for-data` transition mode.
+
+And if your want show the next page with spinner or skeleton only while lazy page is pending, use `instant` transition mode.
 
 ```ts
 // src/routes.ts
