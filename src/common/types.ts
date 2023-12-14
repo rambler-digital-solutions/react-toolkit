@@ -78,6 +78,7 @@ export type GetMetaData = Loader<MetaData, {data: InitialData}>
  * ```
  */
 
+/** Page component */
 export type PageComponent<P = any> = React.ComponentType<
   P & {isLoading: boolean}
 > & {
@@ -86,8 +87,7 @@ export type PageComponent<P = any> = React.ComponentType<
 }
 
 /** Lazy page component */
-export interface LazyPageComponent<P = any>
-  extends React.LazyExoticComponent<PageComponent<P>> {
+export type LazyPageComponent<P = any> = PageComponent<P> & {
   preload: Loader<void>
   getMetaData: GetMetaData
   getInitialData: GetInitialData
