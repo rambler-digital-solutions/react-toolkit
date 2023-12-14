@@ -1,4 +1,4 @@
-import {lazy as reactLazy} from 'react'
+import React, {lazy as reactLazy} from 'react'
 import type {
   Context,
   PageComponent,
@@ -8,9 +8,14 @@ import type {
   InitialData
 } from '../common/types'
 
-/** Component factory */
+/** Page component factory */
+export interface ComponentModule {
+  default: PageComponent
+}
+
+/** Page component factory */
 export interface ComponentFactory {
-  (): Promise<{default: PageComponent}>
+  (): Promise<ComponentModule>
 }
 
 /** Data factory */
@@ -32,12 +37,16 @@ export interface DataFactory<T, C = any> {
  * ```
  */
 export const lazy = (componentFactory: ComponentFactory): LazyPageComponent => {
-  let promise: ReturnType<ComponentFactory>
+  let componentModule: ComponentModule
+  let componentPromise: ReturnType<ComponentFactory>
 
-  const onceFactory: ComponentFactory = () => {
-    promise ??= componentFactory()
+  const onceFactory: ComponentFactory = async () => {
+    if (!componentModule) {
+      componentPromise ??= componentFactory()
+      componentModule = await componentPromise
+    }
 
-    return promise
+    return componentModule
   }
 
   function loaderFactory<T, C = any>(
@@ -50,17 +59,23 @@ export const lazy = (componentFactory: ComponentFactory): LazyPageComponent => {
     }
   }
 
-  const Component = reactLazy(onceFactory) as LazyPageComponent
+  const ReactLazy = reactLazy(onceFactory)
 
-  Component.getMetaData = loaderFactory<MetaData, {data: InitialData}>(
+  const Lazy: LazyPageComponent = (props) => {
+    const Component = componentModule?.default ?? ReactLazy
+
+    return <Component {...props} />
+  }
+
+  Lazy.getMetaData = loaderFactory<MetaData, {data: InitialData}>(
     ({getMetaData}, context) => getMetaData?.(context)
   )
 
-  Component.getInitialData = loaderFactory<InitialData>(
+  Lazy.getInitialData = loaderFactory<InitialData>(
     ({getInitialData}, context) => getInitialData?.(context)
   )
 
-  Component.preload = loaderFactory<void>()
+  Lazy.preload = loaderFactory<void>()
 
-  return Component
+  return Lazy
 }
