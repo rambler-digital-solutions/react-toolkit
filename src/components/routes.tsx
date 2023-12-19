@@ -8,20 +8,22 @@ import {
 } from 'react-router-dom'
 import {type PageRoute, TransitionMode} from '../common/types'
 import {useAppContext} from './context'
-import {loadRouteData} from './loader'
+import {loadRouteData, matchRoute} from './loader'
 
 /** Routing props */
 export interface RoutesProps {
   routes: PageRoute[]
   scrollToTop?: boolean
   transition?: TransitionMode
+  Layout: React.FC<any>
 }
 
 /** Routing component with initial and meta data */
 export const Routes: React.FC<RoutesProps> = ({
   routes,
   scrollToTop,
-  transition
+  transition,
+  Layout
 }) => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -79,30 +81,36 @@ export const Routes: React.FC<RoutesProps> = ({
   }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const routerLocation = isBlockedMode ? currentLocation : location
+  const match = matchRoute({pathname: routerLocation.pathname, routes})
+  const Fallback = match?.route.Fallback
 
   return (
-    <BaseRoutes location={routerLocation}>
-      {routeData.data?.redirect && <Navigate to={routeData.data.redirect} />}
-      {routes.map(({path, Component, Fallback, ...routeProps}) => (
-        <Route
-          {...routeProps}
-          key={path}
-          path={path}
-          element={
-            <Suspense fallback={Fallback ? <Fallback /> : undefined}>
-              {isWaitingMode && routeData.isLoading && Fallback ? (
-                <Fallback />
-              ) : (
-                <Component
-                  {...rest}
-                  {...routeData.data}
-                  isLoading={routeData.isLoading}
-                />
-              )}
-            </Suspense>
-          }
-        />
-      ))}
-    </BaseRoutes>
+    <Suspense fallback={Fallback ? <Fallback /> : undefined}>
+      <Layout {...rest}>
+        <BaseRoutes location={routerLocation}>
+          {routeData.data?.redirect && (
+            <Navigate to={routeData.data.redirect} />
+          )}
+          {routes.map(({path, Component, Fallback, ...routeProps}) => (
+            <Route
+              {...routeProps}
+              key={path}
+              path={path}
+              element={
+                isWaitingMode && routeData.isLoading && Fallback ? (
+                  <Fallback />
+                ) : (
+                  <Component
+                    {...rest}
+                    {...routeData.data}
+                    isLoading={routeData.isLoading}
+                  />
+                )
+              }
+            />
+          ))}
+        </BaseRoutes>
+      </Layout>
+    </Suspense>
   )
 }

@@ -105,9 +105,7 @@ export const renderToStream = async (
     <AppContextProvider value={appContext}>
       <Document>
         <StaticRouter location={pathname}>
-          <Layout {...rest}>
-            <Routes routes={routes} />
-          </Layout>
+          <Routes routes={routes} Layout={Layout} />
         </StaticRouter>
       </Document>
     </AppContextProvider>
