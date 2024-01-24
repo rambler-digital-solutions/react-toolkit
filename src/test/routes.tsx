@@ -5,7 +5,7 @@ import NotFound from './components/not-found'
 const HomePage = lazy(() => import('./components/home'))
 const GetData = lazy(() => import('./components/get-data'))
 const GetAsyncData = lazy(() => import('./components/get-async-data'))
-const Param = lazy(() => import('./components/param'))
+const Parameter = lazy(() => import('./components/parameter'))
 const Location = lazy(() => import('./components/location'))
 const CustomContext = lazy(() => import('./components/custom-context'))
 const NoGetData = lazy(() => import('./components/no-get-data'))
@@ -26,7 +26,7 @@ export const routes: PageRoute[] = [
   },
   {
     path: '/param/:message',
-    Component: Param
+    Component: Parameter
   },
   {
     path: '/custom-context',

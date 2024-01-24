@@ -1,7 +1,7 @@
 import React from 'react'
 import {hydrateRoot} from 'react-dom/client'
 import {BrowserRouter} from 'react-router-dom'
-import {RenderOptions, TransitionMode} from '../common/types'
+import {type RenderOptions, TransitionMode} from '../common/types'
 import {getState} from '../components/state'
 import {AppContextProvider} from '../components/context'
 import {matchRoute} from '../components/loader'
@@ -45,6 +45,7 @@ export const hydrateFromStream = async (
     ...rest
   } = options
 
+  // eslint-disable-next-line @arthurgeron/react-usememo/require-usememo
   const appContext = {
     ...state,
     ...rest

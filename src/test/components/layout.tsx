@@ -1,12 +1,12 @@
-import React, {FC, ReactNode} from 'react'
+import React from 'react'
 import {State} from '../../client'
 
-export interface LayoutProps {
+interface LayoutProps {
   store: any
-  children: ReactNode
+  children: React.ReactNode
 }
 
-export const Layout: FC<LayoutProps> = ({store, children}) => (
+export const Layout: React.FC<LayoutProps> = ({store, children}) => (
   <>
     <main className="layout">{children}</main>
     {store && <State name="INITIAL_STATE" state={store.getState()} />}

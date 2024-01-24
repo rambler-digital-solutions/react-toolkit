@@ -9,7 +9,7 @@ import type {
 } from '../common/types'
 
 /** Page component factory */
-export interface ComponentModule {
+interface ComponentModule {
   default: PageComponent
 }
 
@@ -19,7 +19,7 @@ export interface ComponentFactory {
 }
 
 /** Data factory */
-export interface DataFactory<T, C = any> {
+interface DataFactory<T, C = any> {
   (component: PageComponent, context: Context & C): ReturnType<Loader<T, C>>
 }
 

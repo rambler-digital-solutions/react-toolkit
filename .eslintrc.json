@@ -1,8 +1,8 @@
 {
   "extends": [
     "@rambler-tech/eslint-config",
-    "@rambler-tech/eslint-config/ts",
     "@rambler-tech/eslint-config/react",
+    "@rambler-tech/eslint-config/ts",
     "prettier"
   ]
 }
