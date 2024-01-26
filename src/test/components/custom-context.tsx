@@ -12,12 +12,13 @@ const CustomContext: PageComponent<CustomContextProps> = ({store}) => (
   </>
 )
 
-CustomContext.getMetaData = async () => ({
-  title: 'Custom context'
-})
+CustomContext.getMetaData = () =>
+  Promise.resolve({
+    title: 'Custom context'
+  })
 
 CustomContext.getInitialData = async ({store}) => {
-  store.dispatch({message: 'Hello'})
+  await store.dispatch({message: 'Hello'})
 }
 
 export default CustomContext

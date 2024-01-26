@@ -6,7 +6,7 @@ module.exports = {
   moduleDirectories: ['packages', 'node_modules'],
   collectCoverage: true,
   coverageReporters: ['text'],
-  transformIgnorePatterns: ['node_modules/(?!' + ['superjson'].join('|') + ')'],
+  transformIgnorePatterns: [`node_modules/(?!${['superjson'].join('|')})`],
   transform: {
     '^.+\\.jsx?$': ['ts-jest', {useESM: true}]
   }

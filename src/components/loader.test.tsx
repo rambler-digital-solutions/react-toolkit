@@ -1,5 +1,5 @@
-import {loadRouteData} from './loader'
 import {routes} from '../test/routes'
+import {loadRouteData} from './loader'
 
 let context: any
 

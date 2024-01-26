@@ -11,7 +11,7 @@ import {useAppContext} from './context'
 import {loadRouteData, matchRoute} from './loader'
 
 /** Routing props */
-export interface RoutesProps {
+interface RoutesProps {
   routes: PageRoute[]
   scrollToTop?: boolean
   transition?: TransitionMode
@@ -46,7 +46,7 @@ export const Routes: React.FC<RoutesProps> = ({
   const isBlockedMode = !isWaitingMode && transition !== TransitionMode.INSTANT
 
   useEffect(() => {
-    if (location !== currentLocation) {
+    const onNavigate = async (): Promise<void> => {
       const {pathname} = location
 
       const context = {
@@ -57,26 +57,30 @@ export const Routes: React.FC<RoutesProps> = ({
         ...rest
       }
 
-      setRouteData((prevState) => ({...prevState, isLoading: true}))
+      setRouteData((previousState) => ({...previousState, isLoading: true}))
 
       if (scrollToTop && !isBlockedMode) {
         window.scrollTo(0, 0)
       }
 
-      loadRouteData({pathname, routes, context}).then((routeData) => {
-        if (scrollToTop && isBlockedMode) {
-          window.scrollTo(0, 0)
-        }
+      const routeData = await loadRouteData({pathname, routes, context})
 
-        setRouteData((prevState) => ({
-          ...prevState,
-          ...routeData,
-          isLoading: false
-        }))
+      if (scrollToTop && isBlockedMode) {
+        window.scrollTo(0, 0)
+      }
 
-        setCurrentLocation(location)
-        onChangeMetaData?.(routeData.meta ?? {})
-      })
+      setRouteData((previousState) => ({
+        ...previousState,
+        ...routeData,
+        isLoading: false
+      }))
+
+      setCurrentLocation(location)
+      onChangeMetaData?.(routeData.meta ?? {})
+    }
+
+    if (location !== currentLocation) {
+      onNavigate()
     }
   }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 

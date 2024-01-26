@@ -3,7 +3,7 @@ import type {Request, Response} from 'express'
 import type {InitialData, MetaData} from '../common/types'
 
 /** App context interface */
-export interface AppContextValue extends Record<string, any> {
+interface AppContextValue extends Record<string, any> {
   /** Express.js [request](https://expressjs.com/en/4x/api.html#req) object (server-only) */
   req?: Request
   /** Express [response](https://expressjs.com/en/4x/api.html#res) object (server-only) */
@@ -20,9 +20,9 @@ export interface AppContextValue extends Record<string, any> {
   onChangeMetaData: (meta: MetaData) => void
 }
 
-export const AppContext = createContext({} as AppContextValue)
+const AppContext = createContext({} as AppContextValue)
 
-export interface AppContextProviderProps {
+interface AppContextProviderProps {
   value: Omit<AppContextValue, 'onChangeMetaData'>
   children: React.ReactNode
 }

@@ -3,12 +3,15 @@ import {renderToPipeableStream} from 'react-dom/server'
 import {StaticRouter} from 'react-router-dom/server'
 import type {Location} from 'history'
 import type {Request, Response} from 'express'
-import {RenderOptions} from '../common/types'
+import type {RenderOptions} from '../common/types'
 import {AppContextProvider} from '../components/context'
 import {loadRouteData} from '../components/loader'
 import {Routes} from '../components/routes'
 import {Layout as BaseLayout} from '../components/layout'
 import {Document as BaseDocument} from '../components/document'
+
+const OK = 200
+const FOUND = 302
 
 /** Render to stream options */
 export interface RenderToStreamOptions extends RenderOptions {
@@ -86,11 +89,12 @@ export const renderToStream = async (
   const {data, meta} = await loadRouteData({pathname, routes, context})
 
   if (data?.redirect) {
-    return res.redirect(data?.statusCode ?? 302, data.redirect)
+    return res.redirect(data?.statusCode ?? FOUND, data.redirect)
   }
 
-  res.status(data?.statusCode ?? 200)
+  res.status(data?.statusCode ?? OK)
 
+  // eslint-disable-next-line @arthurgeron/react-usememo/require-usememo
   const appContext = {
     req,
     res,

@@ -1,8 +1,8 @@
 import {matchRoutes, type RouteMatch} from 'react-router-dom'
-import {Context, PageRoute, InitialData, MetaData} from '../common/types'
+import type {Context, PageRoute, InitialData, MetaData} from '../common/types'
 
 /** Match route options */
-export interface MatchRouteOptions {
+interface MatchRouteOptions {
   pathname: string
   routes: PageRoute[]
 }
@@ -18,12 +18,12 @@ export const matchRoute = ({
 }
 
 /** Route loader options */
-export interface LoadRouteDataOptions extends MatchRouteOptions {
+interface LoadRouteDataOptions extends MatchRouteOptions {
   context: Context
 }
 
 /** Route data */
-export interface RouteData {
+interface RouteData {
   data?: InitialData
   meta?: MetaData
   match?: RouteMatch

@@ -1,8 +1,8 @@
 import {Writable} from 'stream'
-import {renderToStream} from './stream'
 import {routes} from '../test/routes'
 import {Layout} from '../test/components/layout'
 import {Document} from '../test/components/document'
+import {renderToStream} from './stream'
 
 class MockResponse extends Writable {
   data = ''

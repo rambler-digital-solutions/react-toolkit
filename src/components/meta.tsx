@@ -1,27 +1,6 @@
 import React from 'react'
 import {useAppContext} from './context'
 
-/** Default meta data component */
-export const Meta: React.FC = () => {
-  const {meta = {}} = useAppContext()
-
-  return (
-    <>
-      {Object.entries(meta).map(([name, content = '']) =>
-        name === 'title' ? (
-          <title key={name}>{content}</title>
-        ) : HEAD_LINKS_RELS.includes(name) ? (
-          <link key={`${name}${content}`} rel={name} href={content} />
-        ) : name.startsWith('og:') ? (
-          <meta key={name} property={name} content={content} />
-        ) : (
-          <meta key={name} name={name} content={content} />
-        )
-      )}
-    </>
-  )
-}
-
 const HEAD_LINKS_RELS = [
   'canonical',
   'alternate',
@@ -34,3 +13,28 @@ const HEAD_LINKS_RELS = [
   'preload',
   'stylesheet'
 ]
+
+/** Default meta data component */
+export const Meta: React.FC = () => {
+  const {meta = {}} = useAppContext()
+
+  return (
+    <>
+      {Object.entries(meta).map(([name, content = '']) => {
+        if (name === 'title') {
+          return <title key={name}>{content}</title>
+        }
+
+        if (HEAD_LINKS_RELS.includes(name)) {
+          return <link key={`${name}${content}`} rel={name} href={content} />
+        }
+
+        if (name.startsWith('og:')) {
+          return <meta key={name} property={name} content={content} />
+        }
+
+        return <meta key={name} name={name} content={content} />
+      })}
+    </>
+  )
+}
