@@ -94,7 +94,6 @@ export const renderToStream = async (
 
   res.status(data?.statusCode ?? OK)
 
-  // eslint-disable-next-line @arthurgeron/react-usememo/require-usememo
   const appContext = {
     req,
     res,

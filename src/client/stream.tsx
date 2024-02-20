@@ -45,7 +45,6 @@ export const hydrateFromStream = async (
     ...rest
   } = options
 
-  // eslint-disable-next-line @arthurgeron/react-usememo/require-usememo
   const appContext = {
     ...state,
     ...rest
