@@ -32,7 +32,7 @@ export const Routes: React.FC<RoutesProps> = ({
     req,
     res,
     data,
-    meta,
+    meta: _meta,
     styles: _styles,
     scripts: _scripts,
     onChangeMetaData,
@@ -40,8 +40,9 @@ export const Routes: React.FC<RoutesProps> = ({
   } = useAppContext()
 
   const [currentLocation, setCurrentLocation] = useState(location)
-  const [routeData, setRouteData] = useState({data, meta, isLoading: false})
+  const [routeData, setRouteData] = useState(data)
 
+  const isLoading = location !== currentLocation
   const isWaitingMode = transition === TransitionMode.WAIT_FOR_DATA
   const isBlockedMode = !isWaitingMode && transition !== TransitionMode.INSTANT
 
@@ -57,32 +58,25 @@ export const Routes: React.FC<RoutesProps> = ({
         ...rest
       }
 
-      setRouteData((previousState) => ({...previousState, isLoading: true}))
-
       if (scrollToTop && !isBlockedMode) {
         window.scrollTo(0, 0)
       }
 
-      const routeData = await loadRouteData({pathname, routes, context})
+      const {data, meta = {}} = await loadRouteData({pathname, routes, context})
 
       if (scrollToTop && isBlockedMode) {
         window.scrollTo(0, 0)
       }
 
-      setRouteData((previousState) => ({
-        ...previousState,
-        ...routeData,
-        isLoading: false
-      }))
-
+      setRouteData((previousData) => ({...previousData, ...data}))
       setCurrentLocation(location)
-      onChangeMetaData?.(routeData.meta ?? {})
+      onChangeMetaData?.(meta)
     }
 
-    if (location !== currentLocation) {
+    if (isLoading) {
       onNavigate()
     }
-  }, [location, currentLocation, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isLoading, scrollToTop]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const routerLocation = isBlockedMode ? currentLocation : location
   const match = matchRoute({pathname: routerLocation.pathname, routes})
@@ -92,23 +86,17 @@ export const Routes: React.FC<RoutesProps> = ({
     <Suspense fallback={Fallback ? <Fallback /> : undefined}>
       <Layout {...rest}>
         <BaseRoutes location={routerLocation}>
-          {routeData.data?.redirect && (
-            <Navigate to={routeData.data.redirect} />
-          )}
+          {routeData?.redirect && <Navigate to={routeData.redirect} />}
           {routes.map(({path, Component, Fallback, ...routeProps}) => (
             <Route
               {...routeProps}
               key={path}
               path={path}
               element={
-                isWaitingMode && routeData.isLoading && Fallback ? (
+                isWaitingMode && isLoading && Fallback ? (
                   <Fallback />
                 ) : (
-                  <Component
-                    {...rest}
-                    {...routeData.data}
-                    isLoading={routeData.isLoading}
-                  />
+                  <Component {...rest} {...routeData} isLoading={isLoading} />
                 )
               }
             />
