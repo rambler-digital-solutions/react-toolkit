@@ -41,6 +41,7 @@ export const Routes: React.FC<RoutesProps> = ({
 
   const [currentLocation, setCurrentLocation] = useState(location)
   const [routeData, setRouteData] = useState(data)
+  const [error, setError] = useState<Error | null>(null)
 
   const isLoading = location !== currentLocation
   const isWaitingMode = transition === TransitionMode.WAIT_FOR_DATA
@@ -62,15 +63,25 @@ export const Routes: React.FC<RoutesProps> = ({
         window.scrollTo(0, 0)
       }
 
-      const {data, meta = {}} = await loadRouteData({pathname, routes, context})
+      try {
+        const {data, meta = {}} = await loadRouteData({
+          pathname,
+          routes,
+          context
+        })
 
-      if (scrollToTop && isBlockedMode) {
-        window.scrollTo(0, 0)
+        if (scrollToTop && isBlockedMode) {
+          window.scrollTo(0, 0)
+        }
+
+        setRouteData((previousData) => ({...previousData, ...data}))
+        setCurrentLocation(location)
+        onChangeMetaData?.(meta)
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error)
+        }
       }
-
-      setRouteData((previousData) => ({...previousData, ...data}))
-      setCurrentLocation(location)
-      onChangeMetaData?.(meta)
     }
 
     if (isLoading) {
@@ -84,7 +95,7 @@ export const Routes: React.FC<RoutesProps> = ({
 
   return (
     <Suspense fallback={Fallback ? <Fallback /> : undefined}>
-      <Layout {...rest}>
+      <Layout {...rest} error={error}>
         <BaseRoutes location={routerLocation}>
           {routeData?.redirect && <Navigate to={routeData.redirect} />}
           {routes.map(({path, Component, Fallback, ...routeProps}) => (
