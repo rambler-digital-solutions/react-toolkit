@@ -64,8 +64,11 @@ export const Routes: React.FC<RoutesProps> = ({
       }
 
       try {
-        const {data, meta = {}} =
-          (await loadRouteData({pathname, routes, context})) ?? {}
+        const {data, meta = {}} = await loadRouteData({
+          pathname,
+          routes,
+          context
+        })
 
         if (scrollToTop && isBlockedMode) {
           window.scrollTo(0, 0)
