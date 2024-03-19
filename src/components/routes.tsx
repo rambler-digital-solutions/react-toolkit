@@ -74,6 +74,7 @@ export const Routes: React.FC<RoutesProps> = ({
           window.scrollTo(0, 0)
         }
 
+        setError(null)
         setRouteData((previousData) => ({...previousData, ...data}))
         setCurrentLocation(location)
         onChangeMetaData?.(meta)
